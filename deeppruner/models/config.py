@@ -28,7 +28,7 @@ class obj(object):
 config = {
     "max_disp": 192,
     "cost_aggregator_scale": 4, # for DeepPruner-fast change this to 8.
-    "mode": "training", # for evaluation/ submission, change this to evaluation.
+    "mode": "evaluation", # for evaluation/ submission, change this to evaluation.
 
     
     # The code allows the user to change the feature extrcator to any feature extractor of their choice.

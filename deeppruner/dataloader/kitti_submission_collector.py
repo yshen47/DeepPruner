@@ -18,8 +18,8 @@ import os
 
 
 def datacollector(filepath):
-    left_fold = 'image_2/'
-    right_fold = 'image_3/'
+    left_fold = '2013_05_28_drive_0000_sync/image_00/data_rect'
+    right_fold = '2013_05_28_drive_0000_sync/image_01/data_rect'
     disp = 'disp_occ_0/'
 
     image = [img for img in sorted(os.listdir(os.path.join(filepath,left_fold))) if img.find('.png') > -1]

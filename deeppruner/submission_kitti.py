@@ -17,6 +17,7 @@ from __future__ import print_function
 import argparse
 import os
 import random
+import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 import torch.nn.parallel
@@ -36,11 +37,11 @@ from models.config import config as config_args
 from setup_logging import setup_logging
 
 parser = argparse.ArgumentParser(description='DeepPruner')
-parser.add_argument('--datapath', default='/',
+parser.add_argument('--datapath', default='/data/kitti/kitti360/KITTI-360',
                     help='datapath')
-parser.add_argument('--loadmodel', default=None,
+parser.add_argument('--loadmodel', default="./pre_trained_models/DeepPruner-best-kitti.tar",
                     help='load model')
-parser.add_argument('--save_dir', default='./',
+parser.add_argument('--save_dir', default='/data/kitti/kitti360/KITTI-360/2013_05_28_drive_0000_sync/disparity',
                     help='save directory')
 parser.add_argument('--logging_filename', default='./submission_kitti.log',
                     help='filename for logs')
@@ -120,9 +121,10 @@ def main():
         imgR = np.lib.pad(imgR, ((0, 0), (0, 0), (top_pad, 0), (0, left_pad)), mode='constant', constant_values=0)
 
         disparity = test(imgL, imgR)
-        disparity = disparity[0, top_pad:, :-left_pad].data.cpu().numpy()
-        skimage.io.imsave(os.path.join(args.save_dir, left_image_path.split('/')
-                                       [-1]), (disparity * 256).astype('uint16'))
+        disparity = disparity[0][top_pad:].data.cpu().numpy()
+        plt.imshow(disparity)
+        plt.show()
+        skimage.io.imsave(os.path.join(args.save_dir, left_image_path.split('/')[-1]), (disparity * 256).astype('uint16'))
 
         logging.info("Disparity for {} generated at: {}".format(left_image_path, os.path.join(args.save_dir, 
                                                                 left_image_path.split('/')[-1])))
